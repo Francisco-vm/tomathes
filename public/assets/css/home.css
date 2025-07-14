@@ -1,0 +1,106 @@
+/* Welcome section */
+.welcome-section {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  background-color: var(--primary-color);
+}
+
+.welcome-section h2 {
+  margin-bottom: var(--spacing-md);
+  font-size: 2rem;
+  color: var(--bg-color);
+}
+
+.welcome-section p {
+  max-width: 600px;
+  color: var(--bg-color);
+  margin: 0 auto var(--spacing-sm);
+}
+
+/* What is math section */
+.what-is-math {
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.what-is-math h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--primary-color);
+}
+
+.what-is-math p {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-lg);
+  text-align: center;
+}
+
+/* Cards container */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.card {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  width: 280px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+  font-size: 2rem;
+  color: var(--accent-color);
+  margin-top: var(--spacing-md);
+}
+
+.card-icon .material-symbols-outlined {
+  font-size: 5rem;
+}
+
+
+.card-body h3 {
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.card-body p {
+  text-align:center;
+  font-size: 0.95rem;
+}
+
+/* Math areas section */
+.math-areas {
+  padding: var(--spacing-xl) var(--spacing-md);
+  background-color: var(--secondary-color);
+}
+
+.math-areas h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 400px;
+  }
+}

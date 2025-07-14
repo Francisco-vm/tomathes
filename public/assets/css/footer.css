@@ -1,0 +1,19 @@
+footer {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: var(--spacing-md) var(--spacing-sm);
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    footer {
+        font-size: 12px;
+        padding: var(--spacing-sm);
+    }
+}
