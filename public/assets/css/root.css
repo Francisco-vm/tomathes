@@ -74,3 +74,13 @@ button:hover {
   margin: 0 auto;
   padding: 0 var(--spacing-md);
 }
+
+main {
+  padding-top: 60px;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 190px;
+  }
+}

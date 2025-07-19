@@ -1,36 +1,56 @@
-/* Header */
+/* ======== HEADER GENERAL ======== */
 
-header {
+.site-header {
     background-color: var(--secondary-color);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-bottom: 1px solid #ddd;
+    padding: var(--spacing-sm);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 var(--spacing-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.left-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.right-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .main-name h1 {
     margin: 0;
     font-size: 24px;
     color: var(--primary-color);
+    font-weight: 600;
+    letter-spacing: -0.5px;
 }
 
-/* Navegación al centro */
 .main-nav {
-    flex-grow: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
 }
 
 .main-nav a {
-    margin: 0 var(--spacing-sm);
     text-decoration: none;
     color: var(--primary-color);
+    font-weight: 500;
     transition: color 0.2s ease;
 }
 
@@ -38,16 +58,168 @@ header {
     color: var(--accent-color);
 }
 
-/* Barra de búsqueda alineada a la derecha */
-.search-bar {
-    min-width: 150px;
-    text-align: right;
+/* ===== SEARCH BAR ===== */
+
+.search-bar form {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .search-bar input[type="text"] {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    background-color: var(--bg-color);
+    padding: 0 var(--spacing-md);
+    border: none;
+    outline: none;
+    background-color: transparent;
     color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    height: 36px;
+    width: 150px;
+}
+
+.search-bar button {
+    padding: 0 var(--spacing-sm);
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.search-bar button:hover {
+    background-color: var(--accent-color);
+}
+
+/* ===== LOGIN BUTTON ===== */
+
+.btn-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-login:hover {
+    transform: scale(1.05);
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== MENU TOGGLE ===== */
+
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-size: 24px;
+    display: none;
+    /* oculto en escritorio */
+    transition: transform 0.3s ease;
+}
+
+.menu-toggle.active {
+    transform: rotate(90deg);
+}
+
+/* ===== RESPONSIVE MENU UNIFICADO ===== */
+.menu-toggle {
+    display: none;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav,
+.search-bar,
+.login-button {
+    display: flex;
+}
+
+.left-group,
+.right-group {
+    display: flex;
+    align-items: center;
+}
+
+/* MOBILE AJUSTES ESPECÍFICOS */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-md) 1rem;
+        height: auto;
+        gap: 1rem;
+    }
+
+    .left-group,
+    .right-group {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .main-name h1 {
+        font-size: 1.8rem;
+    }
+
+    .main-nav {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .main-nav a {
+        font-size: 1.1rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .search-bar {
+        flex: 1 1 60%;
+        max-width: 400px;
+    }
+
+    .search-bar form,
+    .search-bar input[type="text"] {
+        width: 100%;
+    }
+
+    .search-bar input[type="text"],
+    .search-bar button {
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .login-button {
+        flex: 0 0 auto;
+        justify-content: center;
+    }
+
+    .btn-login {
+        height: 40px;
+        width: 40px;
+        font-size: 24px;
+    }
 }

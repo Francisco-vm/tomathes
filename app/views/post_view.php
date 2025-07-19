@@ -1,17 +1,24 @@
 <?php
 $title = "Publicación | ToMathEs";
+$extra_css = ["/assets/css/post_view.css"];
 require __DIR__ . '/partials/header.php';
 ?>
 
-<h1><?= htmlspecialchars($post['title']) ?></h1>
-<p><?= htmlspecialchars($post['content']) ?></p>
-<p><small>Publicado el <?= htmlspecialchars($post['created_at']) ?></small></p>
+<article class="post-container">
+    <header>
+        <h1><?= htmlspecialchars($post['title']) ?></h1>
+        <p><small>Publicado el <?= htmlspecialchars($post['created_at']) ?></small></p>
+    </header>
 
-<hr>
+    <section class="post-content">
+        <p><?= htmlspecialchars($post['content']) ?></p>
+    </section>
+</article>
 
-<h2>Comentarios</h2>
-<div id="comments-container">
-    <!-- Formulario para agregar un nuevo comentario al post -->
+<section id="comments-container">
+    <h2>Comentarios</h2>
+
+    <!-- Formulario para agregar un nuevo comentario -->
     <form id="comment-form" class="ajax-comment-form" action="/comments/create" method="POST">
         <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
         <input type="hidden" name="parent_id" value="">
@@ -29,19 +36,18 @@ require __DIR__ . '/partials/header.php';
         <button type="submit">Publicar comentario</button>
     </form>
 
-    <hr>
-
-    <!-- Mostrar comentarios existentes -->
     <?php if (!empty($comments)): ?>
         <?php foreach ($comments as $comment): ?>
-            <div style="margin-left: <?= $comment['parent_id'] ? '40px' : '0' ?>;">
-                <p><strong><?= htmlspecialchars($comment['name']) ?></strong></p>
-                <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+            <article class="comment <?= $comment['parent_id'] ? 'reply' : '' ?>">
+                <header>
+                    <p><strong><?= htmlspecialchars($comment['name']) ?></strong></p>
+                </header>
+                <section class="comment-content">
+                    <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                </section>
 
-                <!-- Botón de responder que muestra el formulario de respuesta (JS) -->
                 <button onclick="toggleReplyForm(<?= $comment['id'] ?>)">Responder</button>
 
-                <!-- Formulario oculto para responder -->
                 <form class="ajax-comment-form" id="reply-form-<?= $comment['id'] ?>" action="/comments/create" method="POST"
                     style="display:none;">
                     <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
@@ -59,99 +65,47 @@ require __DIR__ . '/partials/header.php';
 
                     <button type="submit">Publicar respuesta</button>
                 </form>
-
-            </div>
+            </article>
         <?php endforeach; ?>
     <?php else: ?>
         <p>No hay comentarios aún.</p>
     <?php endif; ?>
-</div>
-
+</section>
 <script>
     function toggleReplyForm(commentId) {
         const form = document.getElementById('reply-form-' + commentId);
         form.style.display = (form.style.display === 'none') ? 'block' : 'none';
     }
-</script>
 
-<script>
-    document.querySelectorAll('.ajax-comment-form').forEach(form => {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault(); // Evitar recarga normal
+    function handleCommentFormSubmit(e) {
+        e.preventDefault();
 
-            const formData = new FormData(this);
+        const form = this;
+        const formData = new FormData(form);
 
-            fetch('/comments/create', {
-                method: 'POST',
-                body: formData
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        this.reset();
+        fetch('/comments/create', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    form.reset();
 
-                        const parentId = form.querySelector('input[name="parent_id"]').value;
-                        const postId = form.querySelector('input[name="post_id"]').value;
+                    const parentId = form.querySelector('input[name="parent_id"]').value;
+                    const postId = form.querySelector('input[name="post_id"]').value;
 
-                        const newComment = document.createElement('div');
-                        newComment.style.marginLeft = parentId ? '40px' : '0';
+                    const newComment = document.createElement('article');
+                    newComment.classList.add('comment');
+                    if (parentId) newComment.classList.add('reply');
 
-                        newComment.innerHTML = `
-            <p><strong>${data.comment.name}</strong></p>
-            <p>${data.comment.content.replace(/\n/g, '<br>')}</p>
-            <button onclick="toggleReplyForm(${data.comment.id})">Responder</button>
-
-            <form class="ajax-comment-form" id="reply-form-${data.comment.id}" action="/comments/create" method="POST" style="display:none;">
-                <input type="hidden" name="post_id" value="${postId}">
-                <input type="hidden" name="parent_id" value="${data.comment.id}">
-
-                <div>
-                    <label for="name">Nombre:</label>
-                    <input type="text" name="name" required>
-                </div>
-
-                <div>
-                    <label for="content">Respuesta:</label>
-                    <textarea name="content" required></textarea>
-                </div>
-
-                <button type="submit">Publicar respuesta</button>
-            </form>
-        `;
-
-                        if (form.id.startsWith('reply-form-')) {
-                            form.parentNode.insertBefore(newComment, form.nextSibling);
-                            form.style.display = 'none';
-                        } else {
-                            document.getElementById('comments-container').appendChild(newComment);
-                        }
-
-                        // Re-activar AJAX para el formulario recién agregado
-                        const newForm = newComment.querySelector('.ajax-comment-form');
-                        newForm.addEventListener('submit', function (e) {
-                            e.preventDefault();
-                            const newFormData = new FormData(this);
-
-                            fetch('/comments/create', {
-                                method: 'POST',
-                                body: newFormData
-                            })
-                                .then(res => res.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        this.reset();
-                                        this.style.display = 'none';
-
-                                        // Crear el nuevo div para la respuesta
-                                        const replyDiv = document.createElement('div');
-                                        replyDiv.style.marginLeft = '40px';  // porque es respuesta
-                                        replyDiv.innerHTML = `
+                    newComment.innerHTML = `
                 <p><strong>${data.comment.name}</strong></p>
                 <p>${data.comment.content.replace(/\n/g, '<br>')}</p>
                 <button onclick="toggleReplyForm(${data.comment.id})">Responder</button>
 
                 <form class="ajax-comment-form" id="reply-form-${data.comment.id}" action="/comments/create" method="POST" style="display:none;">
-                    <input type="hidden" name="post_id" value="${newFormData.get('post_id')}">
+                    <input type="hidden" name="post_id" value="${postId}">
                     <input type="hidden" name="parent_id" value="${data.comment.id}">
 
                     <div>
@@ -168,33 +122,28 @@ require __DIR__ . '/partials/header.php';
                 </form>
             `;
 
-                                        // Insertar la respuesta debajo del formulario que la envió
-                                        this.parentNode.insertBefore(replyDiv, this.nextSibling);
-
-                                        // Volver a activar evento submit para el nuevo formulario de respuesta dentro de replyDiv
-                                        const nestedForm = replyDiv.querySelector('.ajax-comment-form');
-                                        nestedForm.addEventListener('submit', arguments.callee);  // reusar esta misma función
-
-                                    } else {
-                                        alert("Error al publicar la respuesta.");
-                                    }
-                                })
-                                .catch(err => {
-                                    console.error(err);
-                                    alert("Ocurrió un error al enviar la respuesta.");
-                                });
-                        });
-
-
+                    if (form.id.startsWith('reply-form-')) {
+                        form.parentNode.insertBefore(newComment, form.nextSibling);
+                        form.style.display = 'none';
                     } else {
-                        alert("Error al publicar el comentario.");
+                        document.getElementById('comments-container').appendChild(newComment);
                     }
-                })
 
-                .catch(err => {
-                    console.error(err);
-                    alert("Ocurrió un error al enviar el comentario.");
-                });
-        });
+                    // Re-activar AJAX para el nuevo formulario
+                    const newForm = newComment.querySelector('.ajax-comment-form');
+                    newForm.addEventListener('submit', handleCommentFormSubmit);
+
+                } else {
+                    alert("Error al publicar el comentario.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Ocurrió un error al enviar el comentario.");
+            });
+    }
+
+    document.querySelectorAll('.ajax-comment-form').forEach(form => {
+        form.addEventListener('submit', handleCommentFormSubmit);
     });
 </script>

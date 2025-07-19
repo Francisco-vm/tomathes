@@ -20,20 +20,52 @@
 </head>
 
 <body>
-    <header>
+    <header class="site-header">
         <div class="header-container">
-            <div class="main-name">
-                <h1>ToMathEs</h1>
-            </div>
-            <nav class="main-nav">
-                <a href="/">Inicio</a> |
-                <a href="/about">Acerca</a> |
-                <a href="/posts">Publicaciones</a>
-            </nav>
-            <div class="search-bar">
 
+            <div class="left-group">
+                <div class="main-name">
+                    <h1>ToMathEs</h1>
+                </div>
+
+                <nav class="main-nav">
+                    <a href="/">Inicio</a>
+                    <a href="/about">Acerca</a>
+                    <a href="/posts">Publicaciones</a>
+                </nav>
             </div>
+
+            <div class="right-group">
+                <div class="search-bar">
+                    <form action="/search" method="get">
+                        <input type="text" name="query" placeholder="Buscar..." required>
+                        <button type="submit">
+                            <span class="material-icons">search</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="login-button">
+                    <a href="/login" class="btn-login">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                </div>
+
+                <button class="menu-toggle" aria-label="Menú">
+                    <span class="material-icons">menu</span>
+                </button>
+            </div>
+
         </div>
     </header>
 
     <main>
+        <script>
+            const menuToggle = document.querySelector('.menu-toggle');
+            const headerContainer = document.querySelector('.header-container');
+
+            menuToggle.addEventListener('click', () => {
+                headerContainer.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+        </script>

@@ -9,16 +9,24 @@ class Post
     public static function all()
     {
         $pdo = Database::getInstance();
-        $stmt = $pdo->query("SELECT * FROM posts ORDER BY created_at DESC");
+
+        $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug
+            FROM posts p
+            INNER JOIN categories c ON p.category_id = c.id
+            ORDER BY p.created_at DESC";
+
+        $stmt = $pdo->query($sql);
         return $stmt->fetchAll();
     }
+
 
     // Buscar posts filtrando por nombre de categoría (string)
     public static function getByCategorySlug(string $slug)
     {
         $pdo = Database::getInstance();
 
-        $sql = "SELECT p.* FROM posts p 
+        $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug
+            FROM posts p 
             INNER JOIN categories c ON p.category_id = c.id 
             WHERE c.slug = :slug 
             ORDER BY p.created_at DESC";
@@ -28,6 +36,7 @@ class Post
 
         return $stmt->fetchAll();
     }
+
 
     public static function getBySlug(string $slug)
     {

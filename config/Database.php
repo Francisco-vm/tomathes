@@ -36,10 +36,8 @@ class Database
             http_response_code(500);
 
             if ($this->appEnv === 'local') {
-                // Muestra error detallado en entorno local
                 echo "Database connection failed: " . htmlspecialchars($e->getMessage());
             } else {
-                // Mensaje genérico en producción u otros entornos
                 echo "Database connection failed.";
             }
 

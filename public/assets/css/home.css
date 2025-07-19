@@ -1,7 +1,7 @@
 /* Welcome section */
 .welcome-section {
   text-align: center;
-  padding: var(--spacing-xl) var(--spacing-md);
+  padding: var(--spacing-xl);
   background-color: var(--primary-color);
 }
 
