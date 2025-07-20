@@ -45,11 +45,19 @@
                     </form>
                 </div>
 
-                <div class="login-button">
-                    <a href="/login" class="btn-login">
-                        <span class="material-symbols-outlined">person</span>
-                    </a>
-                </div>
+                <?php if (isset($_SESSION['author_id'])): ?>
+                    <div class="dashboard-button">
+                        <a href="/admin/dashboard" class="btn-dashboard">
+                            <span class="material-symbols-outlined">dashboard</span>
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <div class="login-button">
+                        <a href="/login" class="btn-login">
+                            <span class="material-symbols-outlined">person</span>
+                        </a>
+                    </div>
+                <?php endif; ?>
 
                 <button class="menu-toggle" aria-label="Menú">
                     <span class="material-icons">menu</span>

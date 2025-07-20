@@ -78,7 +78,7 @@
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     height: 36px;
-    width: 150px;
+    width: 360px;
 }
 
 .search-bar button {
@@ -101,7 +101,8 @@
 
 /* ===== LOGIN BUTTON ===== */
 
-.btn-login {
+.btn-login,
+.btn-dashboard {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,7 +116,8 @@
     text-decoration: none;
 }
 
-.btn-login:hover {
+.btn-login:hover,
+.btn-dashboard:hover {
     transform: scale(1.05);
     text-decoration: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -152,7 +154,8 @@
 
 .main-nav,
 .search-bar,
-.login-button {
+.login-button,
+.dashboard-button {
     display: flex;
 }
 
@@ -178,6 +181,10 @@
         width: 100%;
         justify-content: center;
         flex-wrap: wrap;
+    }
+
+    .left-group {
+        gap: 0;
     }
 
     .main-name h1 {
@@ -212,12 +219,14 @@
         font-size: 1rem;
     }
 
-    .login-button {
+    .login-button,
+    .dashboard-button {
         flex: 0 0 auto;
         justify-content: center;
     }
 
-    .btn-login {
+    .btn-login,
+    .btn-dashboard {
         height: 40px;
         width: 40px;
         font-size: 24px;
