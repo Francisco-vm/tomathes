@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* Welcome section */
 .welcome-section {
   text-align: center;
@@ -48,14 +54,14 @@
   border-radius: var(--border-radius);
   padding: var(--spacing-md);
   width: 280px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .card-icon {
@@ -76,7 +82,7 @@
 }
 
 .card-body p {
-  text-align:center;
+  text-align: center;
   font-size: 0.95rem;
 }
 
