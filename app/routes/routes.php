@@ -10,6 +10,11 @@ return [
     'GET' => [
         '/' => [HomeController::class, 'index'],
 
+        '/admin/dashboard' => [AdminController::class, 'dashboard'],
+
+        // GET: formulario de creación de post (ESPECÍFICA)
+        '/posts/create' => [PostController::class, 'createForm'],
+
         // Listado general de posts
         '/posts' => [PostController::class, 'index'],
 
@@ -22,15 +27,12 @@ return [
         // Vista de un post específico por slug
         '/post/{slug}' => [PostController::class, 'view'],
 
-        // Login (vista de formulario)
         '/login' => [LoginController::class, 'showLoginForm'],
-
-        // Logout
         '/logout' => [LoginController::class, 'logout'],
 
-        '/admin/dashboard' => [AdminController::class, 'dashboard'],
-
+        '/posts/edit/{id}' => [PostController::class, 'editForm'],
     ],
+
 
     'POST' => [
         '/posts/create' => [PostController::class, 'create'],

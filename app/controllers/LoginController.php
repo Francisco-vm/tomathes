@@ -4,21 +4,15 @@ namespace App\Controllers;
 
 use App\Models\Author;
 
-class LoginController
+class LoginController extends BaseController
 {
     public function showLoginForm()
     {
-        session_start();
-
         require_once __DIR__ . '/../views/login.php';
     }
 
     public function login()
     {
-        session_start();
-
-        require_once __DIR__ . '/../models/Author.php';
-
         $email = isset($_POST['email']) ? trim($_POST['email']) : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
 
@@ -31,7 +25,6 @@ class LoginController
         $author = Author::findByEmail($email);
 
         if ($author && password_verify($password, $author['password_hash'])) {
-            // Login correcto
             $_SESSION['author_id'] = $author['id'];
             $_SESSION['author_name'] = $author['name'];
 
@@ -46,7 +39,6 @@ class LoginController
 
     public function logout()
     {
-        session_start();
         session_unset();
         session_destroy();
 
