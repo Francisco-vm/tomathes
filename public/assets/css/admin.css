@@ -121,6 +121,7 @@
 
 .edit-btn:hover {
     background-color: #30b886;
+    text-decoration: none;
 }
 
 /* Responsive tweaks */

@@ -11,7 +11,7 @@ require __DIR__ . '/partials/header.php';
     </header>
 
     <section class="post-content">
-        <p><?= htmlspecialchars($post['content']) ?></p>
+        <p><?= $post['content_html'] ?></p>
     </section>
 </article>
 

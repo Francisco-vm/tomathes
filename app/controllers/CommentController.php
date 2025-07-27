@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Comment;
 
-class CommentController
+class CommentController extends BaseController
 {
     public function create()
     {
@@ -12,8 +12,8 @@ class CommentController
 
         $postId = $_POST['post_id'] ?? null;
         $parentId = $_POST['parent_id'] ?: null;
-        $name = trim($_POST['name'] ?? '');
-        $content = trim($_POST['content'] ?? '');
+        $name = htmlspecialchars(trim($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $content = htmlspecialchars(trim($_POST['content'] ?? ''), ENT_QUOTES, 'UTF-8');
 
         if ($postId && $name && $content) {
             $commentId = Comment::create($postId, $parentId, $name, $content);

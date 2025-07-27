@@ -8,7 +8,7 @@ require __DIR__ . '/../partials/header.php';
     <h2>Bienvenido, <?php echo htmlspecialchars($_SESSION['author_name']); ?>.</h2>
 
     <div class="dashboard-actions">
-        <a href="/posts/create" class="dashboard-btn">Crear nuevo post</a>
+        <a href="/posts/create" class="dashboard-btn">Crear post</a>
         <a href="/logout" class="dashboard-btn logout-btn">Cerrar sesión</a>
     </div>
 

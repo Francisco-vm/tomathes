@@ -1,0 +1,64 @@
+/* Contenedor de botones: fila, centrado y con espacio */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-md);
+}
+
+/* Estilo base para botones en el formulario */
+.buttons-container button[type="submit"] {
+  flex: 1 1 150px;
+  max-width: 220px;
+  padding: var(--spacing-md);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, filter 0.3s ease;
+  color: white;
+  background-color: var(--primary-color);
+}
+
+/* Oscurece el botón al pasar el cursor */
+.buttons-container button[type="submit"]:hover {
+  filter: brightness(85%);
+}
+
+/* Botón eliminar en rojo */
+.buttons-container button[name="action"][value="delete"] {
+  background-color: #c0392b;
+}
+
+.buttons-container button[name="action"][value="delete"]:hover {
+  background-color: #a93226;
+}
+
+/* Botón publicar en color accent */
+.buttons-container button[name="action"][value="publish"] {
+  background-color: var(--accent-color);
+}
+
+.buttons-container button[name="action"][value="publish"]:hover {
+  filter: brightness(90%);
+}
+
+/* Botón guardar borrador en gris neutro */
+.buttons-container button[name="action"][value="draft"] {
+  background-color: #7f8c8d;
+}
+
+.buttons-container button[name="action"][value="draft"]:hover {
+  background-color: #636e72;
+}
+
+/* Responsive para móviles: botones en columna */
+@media (max-width: 480px) {
+  .buttons-container button[type="submit"] {
+    flex: 1 1 100%;
+    max-width: 100%;
+    font-size: 1.1rem;
+  }
+}
