@@ -25,23 +25,21 @@ class PostController extends BaseController
     }
 
     public function view(string $slug)
-{
-    $post = Post::getBySlug($slug);
+    {
+        $post = Post::getBySlug($slug);
 
-    if (!$post) {
-        http_response_code(404);
-        echo "404 - Publicación no encontrada.";
-        return;
+        if (!$post) {
+            http_response_code(404);
+            echo "404 - Publicación no encontrada.";
+            return;
+        }
+
+        $post['content_html'] = parseMarkdown($post['content']);
+
+        $comments = Comment::getByPostId($post['id']);
+
+        require __DIR__ . '/../views/post_view.php';
     }
-    
-    $post['content_html'] = parseMarkdown($post['content']);
-
-    $comments = Comment::getByPostId($post['id']);
-
-    require __DIR__ . '/../views/post_view.php';
-}
-
-
 
     public function createForm()
     {
@@ -147,4 +145,24 @@ class PostController extends BaseController
             exit;
         }
     }
+
+    public function search()
+    {
+        $query = $_GET['query'] ?? '';
+        $categories = Category::all();
+        $error = '';
+        $posts = [];
+
+        if (empty($query)) {
+            $error = 'La búsqueda no puede estar vacía.';
+        } else {
+            $posts = Post::search($query);
+            if (empty($posts)) {
+                $error = 'No se encontraron resultados para la búsqueda.';
+            }
+        }
+
+        require __DIR__ . '/../views/posts.php';
+    }
+
 }

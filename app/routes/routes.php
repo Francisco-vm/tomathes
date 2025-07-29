@@ -31,6 +31,8 @@ return [
         '/logout' => [LoginController::class, 'logout'],
 
         '/posts/edit/{id}' => [PostController::class, 'editForm'],
+
+        '/search' => [PostController::class, 'search'],
     ],
 
 

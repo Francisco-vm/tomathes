@@ -25,7 +25,7 @@ require __DIR__ . '/partials/header.php';
         <h1>Publicaciones recientes</h1>
 
         <?php if (empty($posts)): ?>
-            <p>No hay publicaciones disponibles.</p>
+            <p>No se encontraron publicaciones.</p>
         <?php else: ?>
             <div class="posts-grid">
                 <?php foreach ($posts as $post): ?>

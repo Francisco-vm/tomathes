@@ -16,6 +16,7 @@ class Post
     public $status;
     public $created_at;
     public $updated_at;
+    public $query;
 
     public function __construct()
     {
@@ -94,9 +95,10 @@ class Post
         $pdo = Database::getInstance();
 
         $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug
-            FROM posts p
-            INNER JOIN categories c ON p.category_id = c.id
-            ORDER BY p.created_at DESC";
+        FROM posts p
+        INNER JOIN categories c ON p.category_id = c.id
+        WHERE p.status = 'published'
+        ORDER BY p.created_at DESC";
 
         $stmt = $pdo->query($sql);
         return $stmt->fetchAll();
@@ -165,5 +167,23 @@ class Post
         }
 
         return null;
+    }
+
+    public static function search($query)
+    {
+        $pdo = Database::getInstance();
+
+        $sql = "SELECT p.*, c.name AS category_name, c.slug AS category_slug
+        FROM posts p
+        INNER JOIN categories c ON p.category_id = c.id
+        WHERE p.status = 'published' AND (p.title LIKE :query OR p.content LIKE :query2)
+        ORDER BY p.created_at DESC";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'query' => '%' . $query . '%',
+            'query2' => '%' . $query . '%'
+        ]);
+        return $stmt->fetchAll();
     }
 }

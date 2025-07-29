@@ -38,7 +38,8 @@
             <div class="right-group">
                 <div class="search-bar">
                     <form action="/search" method="get">
-                        <input type="text" name="query" placeholder="Buscar..." required>
+                        <input type="text" name="query" value="<?= htmlspecialchars($query ?? '') ?>"
+                            placeholder="Buscar..." required>
                         <button type="submit">
                             <span class="material-icons">search</span>
                         </button>
